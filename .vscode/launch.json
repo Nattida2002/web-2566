@@ -7,7 +7,7 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open work3.html",
+            "name": "Open workk.html",
             "file": "c:\\Users\\Asus\\Documents\\GitHub\\web-2566\\web-2566\\work3.html"
         }
     ]
