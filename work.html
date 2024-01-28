@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Model Viewer with GLB Floor</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <!-- VR Viewer -->
+    <a-entity camera look-controls>
+      <a-cursor></a-cursor>
+    </a-entity>
+
+    <!-- Scene with GLB Floor -->
+    <a-scene>
+      <!-- Sky (Background) -->
+      <a-sky src="workpro/bac.jpg" rotation="0 -90 0"></a-sky>
+
+      <!-- Grass (Larger Size) -->
+      <a-entity gltf-model="Grass.glb" scale="10 10 10" position="0 -1 0" animation="property: rotation; to: 0 360 0; loop: true; easing: linear; dur: 20000"></a-entity>
+
+      <!-- Container for Cute Entities -->
+      <a-entity id="cuteContainer"></a-entity>
+
+      <!-- Calculate positions and rotations for each cute entity in a circle -->
+      <script>
+        var numberOfCutes = 5; // Change this to the desired number of cutes
+        var radius = 5; // Increase the radius for larger separation
+        var angleIncrement = (2 * Math.PI) / numberOfCutes;
+
+        var cuteContainer = document.getElementById('cuteContainer');
+
+        for (var i = 0; i < numberOfCutes; i++) {
+          var angle = i * angleIncrement;
+          var x = radius * Math.cos(angle);
+          var z = radius * Math.sin(angle);
+
+          // Set the y position to make the cutes appear on the floor
+          var y = 0.25; // Adjust this value to make them touch the floor
+
+          var animationDur = Math.random() * 5000 + 3000; // Random duration between 3000 and 8000 milliseconds
+
+          // Create a new entity for each cute and append it to the container
+          var cuteEntity = document.createElement('a-entity');
+          cuteEntity.setAttribute('gltf-model', 'cute.glb');
+          cuteEntity.setAttribute('position', x + ' ' + y + ' ' + z);
+          cuteEntity.setAttribute('scale', '0.5 0.5 0.5');
+          cuteEntity.setAttribute('rotation', '0 ' + (angle + Math.PI / 2) + ' 0');
+          cuteEntity.setAttribute('animation__cute', 'property: rotation; to: 0 360 0; loop: true; easing: linear; dur: ' + animationDur);
+          cuteEntity.setAttribute('sound__cute', 'src: #cuteSound; on: click');
+
+          cuteContainer.appendChild(cuteEntity);
+  
+            var audio = new Audio('child.mp3');
+            audio.play();
+
+        }
+      </script>
+
+      <!-- Sound 
+      <a-assets>
+        <audio id="cuteSound" src="musiccute.mp3"></audio>
+      </a-assets>-->
+
+      <!-- Lights and Camera -->
+      <a-light type="ambient" color="#888"></a-light>
+      <a-light type="point" position="5 5 5"></a-light>
+      <a-camera></a-camera>
+    </a-scene>
+  </body>
+</html>
